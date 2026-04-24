@@ -3,7 +3,7 @@
 // and the CA Vehicle Code. Paraphrased for study — always double-check against the official handbook.
 
 // Change this to personalize the greeting.
-const NAME = 'Padawan';
+const NAME = 'Emmett';
 
 // ─── PERMIT QUESTIONS ───
 // ~55 questions across the topics the CA permit test covers.

@@ -580,6 +580,7 @@ p { margin: 0; color: var(--ink-2); }
     radial-gradient(500px 300px at 50% 0%, rgba(0,229,255,0.15), transparent 60%),
     linear-gradient(180deg, var(--panel-1), var(--panel-2));
   border: 1px solid var(--line-mid);
+  transform: rotateY(0deg);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,229,255,0.1);

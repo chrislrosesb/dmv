@@ -334,6 +334,7 @@ function PracticeScreen() {
   const [qIdx, setQIdx] = React.useState(0);
   const [selected, setSelected] = React.useState(null);
   const [answers, setAnswers] = React.useState([]);
+  const committedRef = React.useRef(false);
   const TOTAL = 10;
   const PASS_PCT = 75;
 
@@ -342,14 +343,19 @@ function PracticeScreen() {
     setQIdx(0);
     setSelected(null);
     setAnswers([]);
+    committedRef.current = false;
     setState('quiz');
   }
   function commit() {
+    if (selected === null) return;
+    if (committedRef.current) return;
+    committedRef.current = true;
     const q = deck[qIdx];
     const correct = selected === q.answer;
     const nextAnswers = [...answers, { qId: q.id, picked: selected, correct }];
     setAnswers(nextAnswers);
     setTimeout(() => {
+      committedRef.current = false;
       setSelected(null);
       if (qIdx + 1 >= deck.length) {
         const score = nextAnswers.filter(a => a.correct).length;
@@ -480,7 +486,7 @@ function QuizResult({ answers, deck, passPct, onRetry }) {
   const correct = answers.filter(a => a.correct).length;
   const pct = Math.round(correct / deck.length * 100);
   const passed = pct >= passPct;
-  const mistakes = answers.map((a, i) => ({ ...a, q: deck[i] })).filter(a => !a.correct);
+  const mistakes = answers.map((a, i) => ({ ...a, q: deck[i] })).filter(a => !a.correct && a.q);
   return (
     <div className="fade-in" style={{maxWidth: 820, margin: '0 auto', display:'flex', flexDirection:'column', gap: 20}}>
       <div className="result-hero">

@@ -148,14 +148,36 @@ function HomeScreen({ onNav }) {
         <div className="eyebrow"><span className="pulse-dot" style={{display:'inline-block', marginRight:8, verticalAlign:'middle'}}/> CALIFORNIA · DMV TRAINING</div>
         <h1 style={{marginTop: 12}}>Ready to train, <span style={{color:'var(--holo-cyan)'}}>{window.NAME}</span>?</h1>
         <p style={{marginTop: 12, maxWidth: 520, margin:'12px auto 0', color:'var(--ink-2)'}}>
-          Pick a module. Study the material, take a practice test, prep for the road test, and pick up driving tips along the way.
+          Two stages. Pass the written permit test first, then prep for the behind-the-wheel road test.
         </p>
       </div>
-      <div className="home-grid">
-        <HomeTile icon="book-open" color="cyan"    title="Study"          desc="Road signs + flashcards. Learn the material." onClick={() => onNav('study')}/>
-        <HomeTile icon="target"    color="violet"  title="Practice Test"  desc="Take a mock permit exam. See how you'd score." onClick={() => onNav('practice')}/>
-        <HomeTile icon="car"       color="amber"   title="Road Test Prep" desc="Checklist for the behind-the-wheel exam." onClick={() => onNav('roadtest')}/>
-        <HomeTile icon="shield"    color="magenta" title="Driving Tips"   desc="Defensive driving. Stuff that keeps you alive." onClick={() => onNav('tips')}/>
+
+      <div className="home-section">
+        <div className="home-section-header">
+          <div className="home-section-label">
+            <span className="home-section-num">01</span>
+            <span className="eyebrow">PERMIT TEST · WRITTEN</span>
+          </div>
+          <div className="home-section-desc">Study the rules and signs, then take a mock written exam.</div>
+        </div>
+        <div className="home-grid">
+          <HomeTile icon="book-open" color="cyan"   title="Study"         desc="Road signs + flashcards. Learn the material." onClick={() => onNav('study')}/>
+          <HomeTile icon="target"    color="violet" title="Practice Test" desc="10-question mock permit exam. See how you'd score." onClick={() => onNav('practice')}/>
+        </div>
+      </div>
+
+      <div className="home-section">
+        <div className="home-section-header">
+          <div className="home-section-label">
+            <span className="home-section-num">02</span>
+            <span className="eyebrow amber">ROAD TEST · BEHIND-THE-WHEEL</span>
+          </div>
+          <div className="home-section-desc">After the permit: prep for the DMV driving examiner.</div>
+        </div>
+        <div className="home-grid">
+          <HomeTile icon="car"    color="amber"   title="Drive Checklist" desc="DL-11 score-sheet items the examiner watches for." onClick={() => onNav('roadtest')}/>
+          <HomeTile icon="shield" color="magenta" title="Driving Tips"    desc="Defensive driving. Stuff that keeps you alive." onClick={() => onNav('tips')}/>
+        </div>
       </div>
       {(last || checkedCount > 0) && (
         <div style={{marginTop: 36, display:'flex', gap: 16, justifyContent:'center', flexWrap:'wrap', fontFamily:'var(--font-mono)', fontSize: 11, letterSpacing:'0.14em', color:'var(--ink-3)'}}>

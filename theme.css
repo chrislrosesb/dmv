@@ -787,13 +787,41 @@ kbd {
   padding: 48px 32px 80px;
 }
 
+/* ── Home sections ── */
+.home-section {
+  max-width: 880px;
+  margin: 0 auto 40px;
+}
+.home-section:last-of-type { margin-bottom: 0; }
+.home-section-header {
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+.home-section-label {
+  display: flex; align-items: center; gap: 12px;
+}
+.home-section-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ink-4);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line-soft);
+  background: rgba(255,255,255,0.02);
+}
+.home-section-desc {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
 /* ── Home tile grid ── */
 .home-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  max-width: 880px;
-  margin: 0 auto;
 }
 .home-tile {
   padding: 28px;

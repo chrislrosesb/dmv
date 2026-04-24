@@ -210,7 +210,7 @@ function HomeTile({ icon, color, title, desc, onClick }) {
 // ─────────────── STUDY (Signs + Flashcards) ───────────────
 
 function StudyScreen() {
-  const [tab, setTab] = React.useState('signs');
+  const [tab, setTab] = React.useState('flashcards');
   return (
     <div className="fade-in" style={{maxWidth: 960, margin: '0 auto'}}>
       <div style={{marginBottom: 20}}>
@@ -219,14 +219,14 @@ function StudyScreen() {
         <p style={{marginTop: 10, maxWidth: 640, color:'var(--ink-2)'}}>Flip through flashcards to drill permit questions, or browse the road sign glossary.</p>
       </div>
       <div className="tabs">
-        <button className={`tab ${tab === 'signs' ? 'active' : ''}`} onClick={() => setTab('signs')}>
-          <Icon name="octagon" size={12}/> Road Signs
-        </button>
         <button className={`tab ${tab === 'flashcards' ? 'active' : ''}`} onClick={() => setTab('flashcards')}>
           <Icon name="layers" size={12}/> Flashcards
         </button>
+        <button className={`tab ${tab === 'signs' ? 'active' : ''}`} onClick={() => setTab('signs')}>
+          <Icon name="octagon" size={12}/> Road Signs
+        </button>
       </div>
-      {tab === 'signs' ? <SignsTab/> : <FlashcardsTab/>}
+      {tab === 'flashcards' ? <FlashcardsTab/> : <SignsTab/>}
     </div>
   );
 }
@@ -353,15 +353,17 @@ function FlashcardsTab() {
 function PracticeScreen() {
   const [state, setState] = React.useState('intro');
   const [deck, setDeck] = React.useState([]);
+  const [size, setSize] = React.useState(10);
   const [qIdx, setQIdx] = React.useState(0);
   const [selected, setSelected] = React.useState(null);
   const [answers, setAnswers] = React.useState([]);
   const committedRef = React.useRef(false);
-  const TOTAL = 10;
   const PASS_PCT = 75;
 
-  function start() {
-    setDeck(shuffle([...window.QUESTIONS]).slice(0, Math.min(TOTAL, window.QUESTIONS.length)));
+  function start(s = 10) {
+    const n = Math.min(s, window.QUESTIONS.length);
+    setSize(n);
+    setDeck(shuffle([...window.QUESTIONS]).slice(0, n));
     setQIdx(0);
     setSelected(null);
     setAnswers([]);
@@ -391,8 +393,8 @@ function PracticeScreen() {
     }, 1100);
   }
 
-  if (state === 'intro')   return <QuizIntro total={TOTAL} passPct={PASS_PCT} onStart={start}/>;
-  if (state === 'results') return <QuizResult answers={answers} deck={deck} passPct={PASS_PCT} onRetry={start}/>;
+  if (state === 'intro')   return <QuizIntro passPct={PASS_PCT} onStart={start}/>;
+  if (state === 'results') return <QuizResult answers={answers} deck={deck} passPct={PASS_PCT} onRetry={() => start(size)} onHome={() => setState('intro')}/>;
 
   const q = deck[qIdx];
   const picked = selected !== null;
@@ -449,32 +451,44 @@ function PracticeScreen() {
   );
 }
 
-function QuizIntro({ total, passPct, onStart }) {
+function QuizIntro({ passPct, onStart }) {
   const history = storage.get('holocron.testHistory', []);
+  const total = window.QUESTIONS.length;
   return (
-    <div className="fade-in" style={{maxWidth: 720, margin: '20px auto', display:'flex', flexDirection:'column', gap: 24}}>
+    <div className="fade-in" style={{maxWidth: 860, margin: '0 auto', display:'flex', flexDirection:'column', gap: 24}}>
       <div style={{textAlign: 'center'}}>
         <div className="eyebrow violet">▸ PRACTICE TEST</div>
-        <h1 style={{marginTop: 8}}>Mock Permit Exam</h1>
-        <p style={{marginTop: 12, maxWidth: 480, margin: '12px auto 0'}}>
-          {total} randomized questions. Pass with {passPct}% or better. You'll see the correct answer and explanation after each question.
+        <h1 style={{marginTop: 8}}>Choose your exam</h1>
+        <p style={{marginTop: 12, maxWidth: 520, margin: '12px auto 0'}}>
+          Mock is a quick confidence check. Master runs every question in the bank. Pass either one with {passPct}% or better.
         </p>
       </div>
-      <div className="panel cyan" style={{textAlign: 'center', padding: 40}}>
-        <div style={{fontFamily:'var(--font-mono)', fontSize: 14, color:'var(--ink-2)', lineHeight: 1.7, maxWidth: 420, margin: '0 auto'}}>
-          Take your time. Read every choice before committing. The goal is to learn, not to speed-run.
+
+      <div className="grid-2">
+        <div className="panel cyan" style={{textAlign:'center', padding: 28, display:'flex', flexDirection:'column', gap: 14}}>
+          <div className="eyebrow">▸ MOCK EXAM</div>
+          <div style={{fontFamily:'var(--font-mono)', fontSize: 56, fontWeight: 700, color:'var(--ink-1)', lineHeight: 1}}>10</div>
+          <div style={{fontSize: 13, color:'var(--ink-2)', minHeight: 56}}>Random questions. Quick confidence check — about 5 minutes.</div>
+          <button className="btn primary" style={{justifyContent:'center'}} onClick={() => onStart(10)}>
+            <Icon name="play" size={14}/> Begin Mock
+          </button>
         </div>
-        <div style={{marginTop: 28, display:'flex', gap: 12, justifyContent:'center'}}>
-          <button className="btn primary" onClick={onStart}>
-            <Icon name="play" size={14}/> Begin Test
+        <div className="panel violet" style={{textAlign:'center', padding: 28, display:'flex', flexDirection:'column', gap: 14}}>
+          <div className="eyebrow violet">▸ MASTER EXAM</div>
+          <div style={{fontFamily:'var(--font-mono)', fontSize: 56, fontWeight: 700, color:'var(--ink-1)', lineHeight: 1}}>{total}</div>
+          <div style={{fontSize: 13, color:'var(--ink-2)', minHeight: 56}}>Every question in the bank. Thorough — roughly 20–30 minutes.</div>
+          <button className="btn violet" style={{justifyContent:'center'}} onClick={() => onStart(total)}>
+            <Icon name="play" size={14}/> Begin Master
           </button>
         </div>
       </div>
+
       <div className="grid-3">
-        <div className="stat"><div className="label">Questions</div><div className="value">{total}</div><div className="meta">Randomized</div></div>
-        <div className="stat"><div className="label">Pass Score</div><div className="value">{passPct}<span style={{fontSize: 18, color:'var(--ink-4)'}}>%</span></div><div className="meta">{Math.ceil(total * passPct / 100)} of {total}</div></div>
+        <div className="stat"><div className="label">Question Bank</div><div className="value">{total}</div><div className="meta">All CA-verified</div></div>
+        <div className="stat"><div className="label">Pass Score</div><div className="value">{passPct}<span style={{fontSize: 18, color:'var(--ink-4)'}}>%</span></div><div className="meta">Both modes</div></div>
         <div className="stat"><div className="label">Tests Taken</div><div className="value">{history.length}</div><div className="meta">{history.length ? `Last: ${history[history.length - 1].correct}/${history[history.length - 1].total}` : 'None yet'}</div></div>
       </div>
+
       {history.length > 0 && <RecentHistory history={history}/>}
     </div>
   );
@@ -504,7 +518,7 @@ function RecentHistory({ history }) {
   );
 }
 
-function QuizResult({ answers, deck, passPct, onRetry }) {
+function QuizResult({ answers, deck, passPct, onRetry, onHome }) {
   const correct = answers.filter(a => a.correct).length;
   const pct = Math.round(correct / deck.length * 100);
   const passed = pct >= passPct;
@@ -520,7 +534,8 @@ function QuizResult({ answers, deck, passPct, onRetry }) {
         <p style={{marginTop: 12, maxWidth: 420, margin: '12px auto 0'}}>
           {passed ? 'Solid. You would pass the real thing at this pace.' : `Needed ${passPct}% to pass. Look at what you missed and run it again.`}
         </p>
-        <div style={{marginTop: 24, display:'flex', gap: 10, justifyContent:'center'}}>
+        <div style={{marginTop: 24, display:'flex', gap: 10, justifyContent:'center', flexWrap:'wrap'}}>
+          <button className="btn ghost" onClick={onHome}>Change Mode</button>
           <button className="btn primary" onClick={onRetry}><Icon name="refresh-cw" size={14}/> New Test</button>
         </div>
       </div>

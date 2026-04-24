@@ -490,6 +490,218 @@ const QUESTIONS = [
       'No minimum — CA is optional',
     ], answer: 1,
     explain: 'CA minimums: 15/30/5 — $15k bodily injury per person, $30k per accident, $5k property damage. You must carry proof in your car.' },
+
+  // ─── Seat Belts & Child Safety ───
+  { id: 'q57', topic: 'Seat Belts',
+    q: 'In California, who in the vehicle is required to wear a seat belt?',
+    choices: [
+      'Only the driver',
+      'Driver and front passengers only',
+      'Everyone in the vehicle, in every seating position',
+      'Only adults over 18',
+    ], answer: 2,
+    explain: 'Every occupant in every seat must be belted. The driver is ticketed for any unbelted passenger under 16.' },
+  { id: 'q58', topic: 'Child Safety',
+    q: 'A child must ride in a rear-facing car seat in California until they are at least:',
+    choices: [
+      '1 year old or 20 lbs',
+      '2 years old (and under 40 lbs and 40 inches)',
+      '4 years old',
+      '6 years old',
+    ], answer: 1,
+    explain: 'Rear-facing until 2 AND under 40 lbs AND under 40 in. — exceed any one of those and forward-facing is allowed.' },
+  { id: 'q59', topic: 'Child Safety',
+    q: 'Children must ride in the back seat using a booster or car seat until they are at least:',
+    choices: [
+      'Age 6',
+      "Age 8 or 4 feet 9 inches tall (whichever comes first)",
+      'Age 10',
+      'Age 12 and 100 lbs',
+    ], answer: 1,
+    explain: 'CA requires a booster (or car seat) until age 8 OR 4\'9" — whichever comes first. Back seat only until age 8.' },
+
+  // ─── Railroad Crossings ───
+  { id: 'q60', topic: 'Railroad Crossings',
+    q: 'You approach a railroad crossing and the gate is down with red lights flashing. You should:',
+    choices: [
+      'Stop, then drive around the gate if no train is visible',
+      'Stop at least 15 feet from the nearest rail and wait until the gate rises AND lights stop',
+      'Sound your horn and cross',
+      'Continue at reduced speed',
+    ], answer: 1,
+    explain: 'Never drive around a lowered gate — it is illegal and often deadly. Wait for the gate to rise AND the lights to stop.' },
+  { id: 'q61', topic: 'Railroad Crossings',
+    q: 'You are approaching a railroad crossing and traffic is backed up on the other side. You should:',
+    choices: [
+      'Cross and hope the train holds off',
+      'Wait until there is room for your entire vehicle on the other side before entering',
+      'Stop on the tracks and wait',
+      'Drive around slower cars',
+    ], answer: 1,
+    explain: 'Never enter a crossing unless you can fully clear it. Getting stuck on the tracks is one of the most fatal situations on the road.' },
+
+  // ─── HOV / Lane Markings ───
+  { id: 'q62', topic: 'HOV Lanes',
+    q: 'To use a California HOV (carpool) lane during operating hours, you must usually have at least:',
+    choices: [
+      'One occupant',
+      'Two occupants (or more, depending on the posted sign)',
+      'Three occupants always',
+      'A commercial license',
+    ], answer: 1,
+    explain: 'Most HOV lanes in CA require 2+ occupants; some require 3+. Always check the posted sign. Motorcycles and qualifying clean-air vehicles with decals also count.' },
+  { id: 'q63', topic: 'HOV Lanes',
+    q: 'You may enter or exit an HOV lane only:',
+    choices: [
+      'Anywhere along the lane',
+      'Where the line is dashed or broken — not across a solid double yellow',
+      'At freeway exits only',
+      'Whenever another car is doing it',
+    ], answer: 1,
+    explain: 'Crossing the solid double yellow into/out of the HOV lane is a ticket. Enter only at the dashed-line openings.' },
+  { id: 'q64', topic: 'Lane Markings',
+    q: 'A two-way center left-turn lane (marked by solid and dashed yellow lines) may be used:',
+    choices: [
+      'For passing slower traffic',
+      'Only to turn left, from either direction, with up to 200 feet of approach',
+      'As a regular travel lane in light traffic',
+      'Only for U-turns',
+    ], answer: 1,
+    explain: 'It is a turn-only lane. You may be in it up to ~200 feet before your turn. Driving in it is a violation.' },
+  { id: 'q65', topic: 'Lane Markings',
+    q: 'A solid white line between lanes going in the same direction means:',
+    choices: [
+      'Lane changes are allowed',
+      'Lane changes discouraged; cross only when necessary and safe',
+      'No driving allowed',
+      'Emergency vehicles only',
+    ], answer: 1,
+    explain: 'Dashed white = change freely. Solid white = stay in your lane unless you must change. Double solid white = never cross.' },
+
+  // ─── Pedestrians (expanded) ───
+  { id: 'q66', topic: 'Pedestrians',
+    q: 'You are approaching a crosswalk and a car in the lane next to you has stopped. You should:',
+    choices: [
+      'Pass — the other car is probably just slow',
+      'Also stop — that car may be yielding to a pedestrian you cannot yet see',
+      'Sound the horn to clear traffic',
+      'Change lanes and continue',
+    ], answer: 1,
+    explain: 'Never pass a vehicle stopped at a crosswalk. CVC 21951: they are likely yielding to a pedestrian you cannot see.' },
+
+  // ─── 2026 New Laws ───
+  { id: 'q67', topic: 'Emergency Vehicles',
+    q: "California's 2026 updated Move Over law requires you to slow down and change lanes (when safe) when passing:",
+    choices: [
+      'Only stopped emergency vehicles',
+      'Only Caltrans work trucks',
+      'Any stationary vehicle displaying hazard lights, flares, or warning signs',
+      'Only police cars',
+    ], answer: 2,
+    explain: 'SB 719 expanded Move Over in 2026 to any stopped vehicle displaying warning signals — not only emergency/Caltrans vehicles.' },
+  { id: 'q68', topic: 'Parking',
+    q: "California's 'daylighting' law prohibits stopping or parking within how many feet of the approach side of a crosswalk?",
+    choices: ['5 feet', '10 feet', '20 feet', '50 feet'],
+    answer: 2,
+    explain: 'AB 413, enforced in 2025–2026: no stopping/standing/parking within 20 ft of the approach side of any marked or unmarked crosswalk — even without a red curb.' },
+
+  // ─── Parking (more) ───
+  { id: 'q69', topic: 'Parking',
+    q: 'The minimum distance you must park from a fire hydrant is:',
+    choices: ['5 feet', '10 feet', '15 feet', '25 feet'],
+    answer: 2,
+    explain: '15 feet of clearance from any fire hydrant (CVC 22514).' },
+  { id: 'q70', topic: 'Parking',
+    q: 'A green painted curb means:',
+    choices: [
+      'No parking at any time',
+      'Parking for a limited time (time is posted on a sign)',
+      'Loading zone for freight',
+      'Passenger pickup only',
+    ], answer: 1,
+    explain: 'Green = time-limited parking. White = short stop for passenger pickup/drop-off or mail. Yellow = loading zone. Blue = disabled. Red = no stop.' },
+
+  // ─── Drugs (beyond alcohol) ───
+  { id: 'q71', topic: 'DUI',
+    q: 'Which of the following can result in a DUI in California?',
+    choices: [
+      'Alcohol only',
+      'Illegal drugs only',
+      'Alcohol, illegal drugs, prescription medication, or OTC drugs that impair driving',
+      'Only drugs listed on a prescription bottle',
+    ], answer: 2,
+    explain: 'CA DUI applies to ANY substance that impairs safe driving — including legal prescriptions (Benadryl, Ambien), cannabis, and OTC meds.' },
+  { id: 'q72', topic: 'DUI',
+    q: 'Where may you store an opened container of cannabis in your vehicle?',
+    choices: [
+      'Glove box',
+      'Passenger footwell',
+      'In the trunk, or a locked area not accessible to the driver',
+      'Cup holder',
+    ], answer: 2,
+    explain: 'CA treats opened cannabis like opened alcohol: trunk or locked area only. Using cannabis while driving or riding is illegal.' },
+
+  // ─── Emergencies / Fatigue ───
+  { id: 'q73', topic: 'Safe Driving',
+    q: 'The most effective response if you start to feel drowsy on a long drive is to:',
+    choices: [
+      'Open a window and turn up the music',
+      'Drink coffee and keep going',
+      'Pull off in a safe place and take a short nap (or stop driving for the day)',
+      'Chew gum',
+    ], answer: 2,
+    explain: 'Drowsy driving produces reaction-time impairment similar to a 0.08 BAC. Caffeine and air buy minutes, not hours.' },
+  { id: 'q74', topic: 'Emergencies',
+    q: 'If your rear wheels start to skid while driving, you should:',
+    choices: [
+      'Slam the brakes hard',
+      'Turn the wheel sharply the opposite direction',
+      'Ease off the gas and steer where you want the front of the car to go',
+      'Pull the parking brake',
+    ], answer: 2,
+    explain: 'Steer into the skid — the direction you want to go — and ease off the gas. Braking or over-correcting makes it worse.' },
+
+  // ─── Sharing the Road ───
+  { id: 'q75', topic: 'Sharing the Road',
+    q: 'The safest place to drive around a large truck is:',
+    choices: [
+      'Directly behind so the driver can see you',
+      'In any of the truck\'s blind spots ("no-zones")',
+      "Where you can see the truck driver's face in the truck's side mirror",
+      'Next to the cab',
+    ], answer: 2,
+    explain: 'If you cannot see the truck driver in their side mirror, they cannot see you. Trucks have large blind spots on all four sides.' },
+  { id: 'q76', topic: 'Sharing the Road',
+    q: 'On a narrow road where you cannot leave 3 feet of space when passing a bicyclist, you must:',
+    choices: [
+      'Honk and pass',
+      'Slow to a safe speed and pass only when you can do so without endangering the bicyclist',
+      'Pass on the right',
+      'Tailgate until they move over',
+    ], answer: 1,
+    explain: 'Under AB 1909 / CVC 21760, if you cannot give 3 feet you must slow to a safe speed and pass only when safe — effectively a full-lane-change on narrow roads.' },
+
+  // ─── Freeway ───
+  { id: 'q77', topic: 'Freeway Driving',
+    q: 'When merging onto a freeway from an on-ramp, you should:',
+    choices: [
+      'Stop at the end of the on-ramp and wait for a gap',
+      'Use the ramp to reach freeway speed, then merge into an adequate gap',
+      'Slow down to 40 mph to let others pass you',
+      'Merge at any speed — freeway traffic will move over',
+    ], answer: 1,
+    explain: 'Stopping on an on-ramp causes rear-end crashes. Match freeway speed, check the blind spot, merge smoothly.' },
+
+  // ─── Financial / DUI consequences ───
+  { id: 'q78', topic: 'DUI',
+    q: 'After a DUI conviction, California requires you to file proof of financial responsibility on:',
+    choices: [
+      'Form SR-1',
+      'Form SR-22 (or SR-1P for non-owners)',
+      'Form DL-44',
+      'Form DMV-14',
+    ], answer: 1,
+    explain: 'SR-22 (or SR-1P) is the insurance certificate required after a DUI, uninsured at-fault crash, or suspension. Must be kept on file for 3 years.' },
 ];
 
 // ─── ROAD SIGNS ───
@@ -513,7 +725,7 @@ const SIGNS = [
 ];
 
 // ─── ROAD TEST CHECKLIST ───
-// Aligned to the CA DMV Driving Performance Evaluation (DL-11) scoring categories.
+// Aligned to the CA DMV Driving Performance Evaluation (DL-32) scoring criteria.
 const ROAD_TEST_CHECKLIST = [
   { id: 'c1',  section: 'Pre-Drive', title: 'Know where every control is',         detail: 'Wipers, defroster, hazard lights, parking brake, turn signals, emergency flashers. The examiner will point and ask.' },
   { id: 'c2',  section: 'Pre-Drive', title: 'Adjust mirrors & seat before you start', detail: 'All three mirrors. Seat close enough that you can fully press the brake pedal with your right foot.' },
@@ -532,6 +744,16 @@ const ROAD_TEST_CHECKLIST = [
   { id: 'c15', section: 'Stops',     title: 'Come to a FULL stop at every stop sign', detail: 'Wheels stop rolling. One-Mississippi count. Then go.' },
   { id: 'c16', section: 'Stops',     title: 'Stop behind the limit line, not on it', detail: 'If there is no limit line, stop before the crosswalk. Not on it.' },
   { id: 'c17', section: 'Stops',     title: 'No coasting to a stop with the clutch in', detail: 'If you drive stick, keep the clutch engaged until the last moment. Coast-stopping is a point deduction.' },
+  { id: 'c18', section: 'Pre-Drive', title: 'Demonstrate hand signals (left, right, slow/stop)', detail: 'The examiner will ask you to show them. Left arm straight out = left; arm up = right; arm down = slow/stop.' },
+  { id: 'c19', section: 'Pre-Drive', title: 'Locate every control on command',      detail: 'Wipers, defroster, headlights, hazard lights, parking brake. The examiner points and asks. Miss 4 of 6 on items 9–14 = fail before you even start.' },
+  { id: 'c20', section: 'Driving',   title: 'Phone out of reach for the entire test', detail: 'Touching or even glancing at a phone = critical error. Under 18: no phone use at all (CVC 23123.5). Put it in the glove box before the test starts.' },
+  { id: 'c21', section: 'Driving',   title: 'Never more than 10 mph over OR under the limit without cause', detail: '10 mph either direction is a critical driving error. Match posted limit and flow — not timid, not aggressive.' },
+  { id: 'c22', section: 'Driving',   title: 'Cancel your turn signal after every turn or lane change', detail: 'A stuck signal confuses other drivers. Self-canceling signals do not always cancel — check every time.' },
+  { id: 'c23', section: 'Driving',   title: 'Keep wheels straight when stopped to turn left', detail: 'At a left-turn stop with oncoming traffic: wheels straight. If rear-ended with angled wheels, you are pushed into oncoming traffic. DL-32 scores this separately.' },
+  { id: 'c24', section: 'Driving',   title: 'Lane changes: blind-spot check, signal before AND after', detail: 'Shoulder check → signal → gap → cancel. Mirror-only = automatic deduction.' },
+  { id: 'c25', section: 'Driving',   title: 'Center the vehicle in the lane — do not straddle lines', detail: 'Lane position is scored on every road type. Hugging or crossing a line = deductions.' },
+  { id: 'c26', section: 'Maneuvers', title: 'Back 3 vehicle lengths while staying within 3 ft of the curb', detail: 'Examiner pulls you to the curb and asks you to back up. Right arm over the passenger seat, head turned. Slow, controlled, straight.' },
+  { id: 'c27', section: 'Stops',     title: 'Full stop behind the limit line before turning right on red', detail: 'A rolling right-on-red is a critical error — automatic fail. Full stop, yield to pedestrians and cross traffic, then turn.' },
 ];
 
 // ─── DRIVING TIPS ───
@@ -548,6 +770,12 @@ const TIPS = [
   { id: 't10', icon: 'shield',      title: 'Train crossings: never stop on the tracks', body: 'If traffic is backed up, wait until there is room ALL THE WAY across before you enter. Trains need a mile to stop and always win.' },
   { id: 't11', icon: 'clock',       title: 'Fatigue is as bad as drunk',     body: 'Yawning, drifting, missing exits = pull over. A 20-minute nap in a safe rest area beats a crash.' },
   { id: 't12', icon: 'eye',         title: 'Share the road with bicycles',   body: "CA law: 3 feet minimum when passing. They're not going away, they're faster than you think, and they are exposed." },
+  { id: 't13', icon: 'eye',         title: 'Left-turn blind curve: watch BOTH ways',  body: "When turning left into a driveway or on a green light, watch oncoming traffic AND the pedestrian crosswalk across your path. About 40% of fatal pedestrian crashes happen on left turns." },
+  { id: 't14', icon: 'zap',         title: 'Brake failure: pump, downshift, e-brake', body: "Pump the brake to try to build pressure. If nothing: downshift to low gear, then slowly apply the parking brake. Steer to a safe shoulder. Don't turn off the engine — you'll lose power steering." },
+  { id: 't15', icon: 'zap',         title: 'Fire or smoke: get out, stay out',        body: "Pull to the right shoulder, turn off the engine, get everyone 100+ feet away, call 911. Don't open the hood if the fire is under it — you feed it oxygen." },
+  { id: 't16', icon: 'eye',         title: "Animal in the road: don't swerve",        body: "Brake hard in a straight line. Swerving into oncoming traffic or off-road kills more drivers than hitting the animal. Hit it if you must." },
+  { id: 't17', icon: 'car',         title: 'Truck turning right: stay OUT of its lane', body: "Trucks swing wide to make right turns. Never pass a truck on the right at an intersection — their rear wheels will eat your bumper (or you)." },
+  { id: 't18', icon: 'shield',      title: 'Traffic stop: hands visible, window down',  body: "Pull right safely, turn off engine, hands on the wheel, window down, interior light on at night. Don't reach for license or registration until asked." },
 ];
 
 Object.assign(window, { NAME, QUESTIONS, SIGNS, ROAD_TEST_CHECKLIST, TIPS });

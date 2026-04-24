@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HOLOCRON — DMV Training</title>
+<link rel="stylesheet" href="aseva-tokens.css"/>
+<link rel="stylesheet" href="theme.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script src="data.js"></script>
+<script type="text/babel" data-presets="react">
+
+const ICONS = {
+  'book-open':  'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z',
+  'layers':     'M12 2 2 7l10 5 10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
+  'target':     'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 12h0',
+  'car':        'M5 17h14M7 17v2H3v-6l2-5h14l2 5v6h-4v-2M5 13h14',
+  'octagon':    'M7.86 2h8.28L22 7.86v8.28L16.14 22H7.86L2 16.14V7.86z',
+  'shield':     'M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z',
+  'check':      'M20 6 9 17l-5-5',
+  'x':          'M18 6 6 18M6 6l12 12',
+  'play':       'M5 3 19 12 5 21z',
+  'rotate-ccw': 'M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5',
+  'refresh-cw': 'M21 12a9 9 0 0 1-15.7 6L3 16M21 21v-5h-5M3 12a9 9 0 0 1 15.7-6L21 8M3 3v5h5',
+  'arrow-right':'M5 12h14M12 5l7 7-7 7',
+  'corner-down-left': 'M9 10l-5 5 5 5M20 4v7a4 4 0 0 1-4 4H4',
+  'mouse-pointer-click': 'M9 9l3 11 2-6 6-2zM7.2 2.2l1.4 1.4M2.2 7.2l1.4 1.4M4 4l1 1M10 2l1 4M2 10l4 1',
+  'smartphone': 'M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM12 18h.01',
+  'eye':        'M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  'moon':       'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z',
+  'cloud-rain': 'M4 14a5 5 0 1 1 9-3 4 4 0 0 1 1 8H7a4 4 0 0 1-3-5zM8 18v2M12 18v2M16 18v2',
+  'zap':        'M13 2 3 14h9l-1 8 10-12h-9z',
+};
+
+function Icon({ name, size = 16, style, className, strokeWidth = 1.75 }) {
+  const d = ICONS[name];
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24"
+      fill={style && style.fill ? style.fill : 'none'}
+      stroke="currentColor" strokeWidth={strokeWidth}
+      strokeLinecap="round" strokeLinejoin="round"
+      className={className}
+      style={{ display: 'inline-block', flexShrink: 0, ...style }}>
+      {d ? <path d={d}/> : <circle cx="12" cy="12" r="9"/>}
+    </svg>
+  );
+}
+
+function BrandMark() {
+  return (
+    <div className="brand-mark">
+      <svg viewBox="0 0 28 28" fill="none">
+        <defs>
+          <linearGradient id="bgBrand" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#00E5FF"/>
+            <stop offset="1" stopColor="#7C4DFF"/>
+          </linearGradient>
+        </defs>
+        <circle cx="14" cy="14" r="12" stroke="url(#bgBrand)" strokeWidth="1.5"/>
+        <circle cx="14" cy="14" r="8" stroke="#00E5FF" strokeWidth="1" opacity="0.4"/>
+        <path d="M9 8V20M19 8V20M9 14H19" stroke="#E6F1FF" strokeWidth="2" strokeLinecap="round"/>
+        <circle cx="14" cy="14" r="1.5" fill="#00E5FF"/>
+      </svg>
+    </div>
+  );
+}
+
+function Saber({ value, max = 100, color = '' }) {
+  const pct = Math.max(0, Math.min(100, (value / max) * 100));
+  return (
+    <div className="saber">
+      <div className={`saber-fill ${color}`} style={{width: `${pct}%`}}/>
+    </div>
+  );
+}
+
+function SignSVG({ sign, size = 72 }) {
+  const s = size;
+  const color = sign.color;
+  const textColor = (color === '#fff' || color === '#f5c94d') ? '#111' : '#fff';
+  const inner = {
+    'stop':       <text x="50%" y="58%" textAnchor="middle" fill={textColor} style={{font:'700 13px var(--font-mono)', letterSpacing:'0.06em'}}>STOP</text>,
+    'yield':      <text x="50%" y="68%" textAnchor="middle" fill={textColor} style={{font:'700 10px var(--font-mono)'}}>YIELD</text>,
+    'dne':        <rect x={s*0.2} y={s*0.46} width={s*0.6} height={s*0.08} fill="#fff"/>,
+    'oneway':     <><path d={`M ${s*0.2} ${s*0.5} L ${s*0.8} ${s*0.5}`} stroke="#fff" strokeWidth="3"/><path d={`M ${s*0.75} ${s*0.44} L ${s*0.8} ${s*0.5} L ${s*0.75} ${s*0.56}`} stroke="#fff" strokeWidth="3" fill="none"/><text x="50%" y="82%" textAnchor="middle" fill="#fff" style={{font:'600 8px var(--font-mono)'}}>ONE WAY</text></>,
+    'rr':         <text x="50%" y="58%" textAnchor="middle" fill="#111" style={{font:'700 18px var(--font-mono)'}}>RR</text>,
+    'curve':      <path d={`M ${s*0.3} ${s*0.7} Q ${s*0.5} ${s*0.2} ${s*0.7} ${s*0.7}`} stroke="#111" strokeWidth="3" fill="none"/>,
+    'merge':      <path d={`M ${s*0.35} ${s*0.75} L ${s*0.5} ${s*0.35} M ${s*0.65} ${s*0.75} L ${s*0.5} ${s*0.45}`} stroke="#111" strokeWidth="3" fill="none" strokeLinecap="round"/>,
+    'school':     <><circle cx="50%" cy="44%" r={s*0.08} fill="#111"/><path d={`M ${s*0.25} ${s*0.75} L ${s*0.5} ${s*0.6} L ${s*0.75} ${s*0.75}`} stroke="#111" strokeWidth="2.5" fill="none"/></>,
+    'ped':        <><circle cx="50%" cy="38%" r={s*0.07} fill="#111"/><path d={`M ${s*0.5} ${s*0.48} L ${s*0.5} ${s*0.7} M ${s*0.4} ${s*0.58} L ${s*0.6} ${s*0.58} M ${s*0.5} ${s*0.7} L ${s*0.42} ${s*0.82} M ${s*0.5} ${s*0.7} L ${s*0.58} ${s*0.82}`} stroke="#111" strokeWidth="2" strokeLinecap="round"/></>,
+    'noparking':  <text x="50%" y="58%" textAnchor="middle" fill={textColor} style={{font:'700 16px var(--font-mono)'}}>P</text>,
+    'speed':      <><text x="50%" y="34%" textAnchor="middle" fill="#111" style={{font:'600 8px var(--font-mono)', letterSpacing:'0.1em'}}>SPEED</text><text x="50%" y="48%" textAnchor="middle" fill="#111" style={{font:'600 8px var(--font-mono)', letterSpacing:'0.1em'}}>LIMIT</text><text x="50%" y="80%" textAnchor="middle" fill="#111" style={{font:'700 22px var(--font-mono)'}}>25</text></>,
+    'construction': <path d={`M ${s*0.5} ${s*0.32} L ${s*0.3} ${s*0.68} L ${s*0.7} ${s*0.68} Z`} fill="#111"/>,
+    'wrongway':   <><text x="50%" y="44%" textAnchor="middle" fill="#fff" style={{font:'700 9px var(--font-mono)', letterSpacing:'0.04em'}}>WRONG</text><text x="50%" y="68%" textAnchor="middle" fill="#fff" style={{font:'700 9px var(--font-mono)', letterSpacing:'0.04em'}}>WAY</text></>,
+    'nouturn':    <><path d={`M ${s*0.32} ${s*0.38} Q ${s*0.32} ${s*0.58} ${s*0.5} ${s*0.58} Q ${s*0.68} ${s*0.58} ${s*0.68} ${s*0.38}`} stroke="#111" strokeWidth="2.5" fill="none"/><path d={`M ${s*0.62} ${s*0.32} L ${s*0.68} ${s*0.38} L ${s*0.74} ${s*0.32}`} stroke="#111" strokeWidth="2.5" fill="none"/><line x1={s*0.22} y1={s*0.22} x2={s*0.78} y2={s*0.78} stroke="#d93540" strokeWidth="3"/></>,
+    'stopahead':  <><polygon points={`${s*0.44},${s*0.28} ${s*0.56},${s*0.28} ${s*0.62},${s*0.34} ${s*0.62},${s*0.46} ${s*0.56},${s*0.52} ${s*0.44},${s*0.52} ${s*0.38},${s*0.46} ${s*0.38},${s*0.34}`} fill="#d93540"/><text x="50%" y="44%" textAnchor="middle" fill="#fff" style={{font:'700 6px var(--font-mono)'}}>STOP</text><text x="50%" y="72%" textAnchor="middle" fill="#111" style={{font:'700 8px var(--font-mono)'}}>AHEAD</text></>,
+    'hov':        <><polygon points={`${s*0.5},${s*0.32} ${s*0.62},${s*0.44} ${s*0.5},${s*0.56} ${s*0.38},${s*0.44}`} stroke="#111" strokeWidth="1.5" fill="none"/><text x="50%" y="78%" textAnchor="middle" fill="#111" style={{font:'700 10px var(--font-mono)', letterSpacing:'0.08em'}}>HOV</text></>,
+  }[sign.id];
+  const shapes = {
+    octagon:  <polygon points={`${s*0.29},${s*0.1} ${s*0.71},${s*0.1} ${s*0.9},${s*0.29} ${s*0.9},${s*0.71} ${s*0.71},${s*0.9} ${s*0.29},${s*0.9} ${s*0.1},${s*0.71} ${s*0.1},${s*0.29}`} fill={color}/>,
+    triangle: <polygon points={`${s*0.5},${s*0.12} ${s*0.9},${s*0.82} ${s*0.1},${s*0.82}`} fill="#fff" stroke={color} strokeWidth={s*0.08}/>,
+    circle:   <circle cx={s/2} cy={s/2} r={s*0.4} fill={color}/>,
+    rect:     <rect x={s*0.15} y={s*0.15} width={s*0.7} height={s*0.7} fill={color} stroke="#111" strokeWidth="1"/>,
+    diamond:  <polygon points={`${s*0.5},${s*0.1} ${s*0.9},${s*0.5} ${s*0.5},${s*0.9} ${s*0.1},${s*0.5}`} fill={color}/>,
+    pent:     <polygon points={`${s*0.5},${s*0.1} ${s*0.9},${s*0.4} ${s*0.78},${s*0.88} ${s*0.22},${s*0.88} ${s*0.1},${s*0.4}`} fill={color}/>,
+  };
+  return (
+    <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s} style={{filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))'}}>
+      {shapes[sign.shape]}
+      {inner}
+    </svg>
+  );
+}
+
+const storage = {
+  get(key, fallback) {
+    try { const v = localStorage.getItem(key); return v == null ? fallback : JSON.parse(v); } catch (e) { return fallback; }
+  },
+  set(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  },
+};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ─────────────── HOME ───────────────
+
+function HomeScreen({ onNav }) {
+  const history = storage.get('holocron.testHistory', []);
+  const last = history[history.length - 1];
+  const checklist = storage.get('holocron.checklist', {});
+  const checkedCount = Object.values(checklist).filter(Boolean).length;
+  return (
+    <div className="fade-in" style={{maxWidth: 920, margin: '0 auto'}}>
+      <div style={{textAlign: 'center', marginBottom: 40}}>
+        <div className="eyebrow"><span className="pulse-dot" style={{display:'inline-block', marginRight:8, verticalAlign:'middle'}}/> CALIFORNIA · DMV TRAINING</div>
+        <h1 style={{marginTop: 12}}>Ready to train, <span style={{color:'var(--holo-cyan)'}}>{window.NAME}</span>?</h1>
+        <p style={{marginTop: 12, maxWidth: 520, margin:'12px auto 0', color:'var(--ink-2)'}}>
+          Pick a module. Study the material, take a practice test, prep for the road test, and pick up driving tips along the way.
+        </p>
+      </div>
+      <div className="home-grid">
+        <HomeTile icon="book-open" color="cyan"    title="Study"          desc="Road signs + flashcards. Learn the material." onClick={() => onNav('study')}/>
+        <HomeTile icon="target"    color="violet"  title="Practice Test"  desc="Take a mock permit exam. See how you'd score." onClick={() => onNav('practice')}/>
+        <HomeTile icon="car"       color="amber"   title="Road Test Prep" desc="Checklist for the behind-the-wheel exam." onClick={() => onNav('roadtest')}/>
+        <HomeTile icon="shield"    color="magenta" title="Driving Tips"   desc="Defensive driving. Stuff that keeps you alive." onClick={() => onNav('tips')}/>
+      </div>
+      {(last || checkedCount > 0) && (
+        <div style={{marginTop: 36, display:'flex', gap: 16, justifyContent:'center', flexWrap:'wrap', fontFamily:'var(--font-mono)', fontSize: 11, letterSpacing:'0.14em', color:'var(--ink-3)'}}>
+          {last && (
+            <div>LAST TEST: <span style={{color:'var(--ink-1)'}}>{last.correct}/{last.total}</span> ({Math.round(last.correct/last.total*100)}%)</div>
+          )}
+          {checkedCount > 0 && (
+            <div>ROAD TEST READINESS: <span style={{color:'var(--ink-1)'}}>{checkedCount}/{window.ROAD_TEST_CHECKLIST.length}</span></div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function HomeTile({ icon, color, title, desc, onClick }) {
+  return (
+    <div className={`home-tile ${color}`} onClick={onClick}>
+      <div className="home-tile-icon"><Icon name={icon} size={24}/></div>
+      <h2>{title}</h2>
+      <p>{desc}</p>
+      <div className="home-tile-cta">
+        <span>ENTER</span>
+        <Icon name="arrow-right" size={12}/>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────── STUDY (Signs + Flashcards) ───────────────
+
+function StudyScreen() {
+  const [tab, setTab] = React.useState('signs');
+  return (
+    <div className="fade-in" style={{maxWidth: 960, margin: '0 auto'}}>
+      <div style={{marginBottom: 20}}>
+        <div className="eyebrow">▸ STUDY</div>
+        <h1>Learn the road.</h1>
+        <p style={{marginTop: 10, maxWidth: 640, color:'var(--ink-2)'}}>Flip through flashcards to drill permit questions, or browse the road sign glossary.</p>
+      </div>
+      <div className="tabs">
+        <button className={`tab ${tab === 'signs' ? 'active' : ''}`} onClick={() => setTab('signs')}>
+          <Icon name="octagon" size={12}/> Road Signs
+        </button>
+        <button className={`tab ${tab === 'flashcards' ? 'active' : ''}`} onClick={() => setTab('flashcards')}>
+          <Icon name="layers" size={12}/> Flashcards
+        </button>
+      </div>
+      {tab === 'signs' ? <SignsTab/> : <FlashcardsTab/>}
+    </div>
+  );
+}
+
+function SignsTab() {
+  return (
+    <div style={{display:'flex', flexDirection:'column', gap: 20}}>
+      <div className="grid-2">
+        <div className="panel cyan">
+          <div className="eyebrow">By Shape</div>
+          <div style={{marginTop: 10, fontSize: 13, color:'var(--ink-2)', lineHeight: 1.7}}>
+            <div><strong style={{color:'var(--ink-1)'}}>Octagon</strong> — Stop. Only one shape can be this.</div>
+            <div><strong style={{color:'var(--ink-1)'}}>Triangle</strong> — Yield.</div>
+            <div><strong style={{color:'var(--ink-1)'}}>Diamond</strong> — Warning ahead.</div>
+            <div><strong style={{color:'var(--ink-1)'}}>Round</strong> — Railroad crossing.</div>
+            <div><strong style={{color:'var(--ink-1)'}}>Pentagon</strong> — School zone.</div>
+          </div>
+        </div>
+        <div className="panel violet">
+          <div className="eyebrow violet">By Color</div>
+          <div style={{marginTop: 10, fontSize: 13, color:'var(--ink-2)', lineHeight: 1.7}}>
+            <div><strong style={{color:'#FF3D7F'}}>Red</strong> — Stop, yield, prohibited.</div>
+            <div><strong style={{color:'#FFC94D'}}>Yellow</strong> — General warning.</div>
+            <div><strong style={{color:'#FFC94D'}}>Yellow-green</strong> — Pedestrian / school.</div>
+            <div><strong style={{color:'#FF8C1A'}}>Orange</strong> — Construction / work zone.</div>
+            <div><strong style={{color:'var(--ink-1)'}}>White</strong> — Regulation (speed, lane use).</div>
+          </div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="panel-head">
+          <div className="panel-title"><span className="dot"/> All Signs</div>
+          <div style={{fontFamily:'var(--font-mono)', fontSize:11, color:'var(--ink-3)', letterSpacing:'0.12em'}}>{window.SIGNS.length} TOTAL</div>
+        </div>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(140px, 1fr))', gap: 12}}>
+          {window.SIGNS.map(s => (
+            <div key={s.id} className="sign-tile">
+              <div className="sign-svg"><SignSVG sign={s}/></div>
+              <div className="sign-name">{s.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FlashcardsTab() {
+  const [deck] = React.useState(() => shuffle([...window.QUESTIONS]));
+  const [idx, setIdx] = React.useState(0);
+  const [flipped, setFlipped] = React.useState(false);
+  const [known, setKnown] = React.useState(0);
+  const [review, setReview] = React.useState(0);
+  function next() { setFlipped(false); setTimeout(() => setIdx(i => (i + 1) % deck.length), 150); }
+  function markKnown()  { setKnown(k => k + 1); next(); }
+  function markReview() { setReview(r => r + 1); next(); }
+  const q = deck[idx];
+  return (
+    <div style={{display:'flex', flexDirection:'column', gap: 20}}>
+      <div style={{display:'flex', gap: 10, fontFamily:'var(--font-mono)', fontSize: 12, justifyContent:'flex-end', flexWrap:'wrap'}}>
+        <div style={{padding:'8px 14px', borderRadius: 10, background:'rgba(57,255,136,0.08)', border:'1px solid rgba(57,255,136,0.25)', color:'var(--holo-saber-green)'}}>
+          <Icon name="check" size={12}/> Known · {known}
+        </div>
+        <div style={{padding:'8px 14px', borderRadius: 10, background:'rgba(255,201,77,0.08)', border:'1px solid rgba(255,201,77,0.25)', color:'var(--holo-amber)'}}>
+          <Icon name="rotate-ccw" size={12}/> Review · {review}
+        </div>
+        <div style={{padding:'8px 14px', borderRadius: 10, background:'rgba(0,229,255,0.08)', border:'1px solid rgba(0,229,255,0.25)', color:'var(--holo-cyan)'}}>
+          {idx + 1} / {deck.length}
+        </div>
+      </div>
+      <div style={{margin:'0 auto', width:'100%', maxWidth: 640}}>
+        <Saber value={idx + 1} max={deck.length}/>
+      </div>
+      <div className="flashcard-wrap">
+        <div className={`flashcard ${flipped ? 'flipped' : ''}`} onClick={() => setFlipped(f => !f)}>
+          <div className="flashcard-face">
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
+              <div className="eyebrow">Topic · {q.topic}</div>
+              <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--ink-3)', letterSpacing:'0.1em'}}>TAP TO REVEAL</div>
+            </div>
+            <div style={{fontFamily:'var(--font-mono)', fontSize: 22, lineHeight: 1.4, color:'var(--ink-1)', zIndex: 1}}>
+              {q.q}
+            </div>
+            <div style={{display:'flex', alignItems:'center', gap: 8, color:'var(--ink-4)', fontSize: 11, fontFamily:'var(--font-mono)', letterSpacing:'0.14em'}}>
+              <Icon name="mouse-pointer-click" size={12}/> CLICK CARD TO FLIP
+            </div>
+          </div>
+          <div className="flashcard-face back">
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+              <div className="eyebrow violet">▸ Answer</div>
+              <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--holo-saber-green)', letterSpacing:'0.1em'}}>✓ VERIFIED</div>
+            </div>
+            <div style={{display:'flex', flexDirection:'column', gap: 14}}>
+              <div style={{fontFamily:'var(--font-mono)', fontSize: 20, color:'var(--holo-cyan)'}}>
+                {q.choices[q.answer]}
+              </div>
+              <div style={{fontSize: 13, color:'var(--ink-2)', lineHeight: 1.6}}>
+                {q.explain}
+              </div>
+            </div>
+            <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--ink-4)', letterSpacing:'0.14em'}}>
+              MARK IT BELOW ↓
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style={{display:'flex', gap: 10, justifyContent:'center', flexWrap:'wrap'}}>
+        <button className="btn ghost" onClick={() => setFlipped(f => !f)}>
+          <Icon name="refresh-cw" size={14}/> Flip
+        </button>
+        <button className="btn" onClick={markReview} style={{background:'rgba(255,201,77,0.12)', border:'1px solid rgba(255,201,77,0.4)', color:'var(--holo-amber)'}}>
+          <Icon name="rotate-ccw" size={14}/> Review Again
+        </button>
+        <button className="btn" onClick={markKnown} style={{background:'rgba(57,255,136,0.14)', border:'1px solid rgba(57,255,136,0.4)', color:'var(--holo-saber-green)'}}>
+          <Icon name="check" size={14}/> I Got It
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────── PRACTICE TEST ───────────────
+
+function PracticeScreen() {
+  const [state, setState] = React.useState('intro');
+  const [deck, setDeck] = React.useState([]);
+  const [qIdx, setQIdx] = React.useState(0);
+  const [selected, setSelected] = React.useState(null);
+  const [answers, setAnswers] = React.useState([]);
+  const TOTAL = 10;
+  const PASS_PCT = 75;
+
+  function start() {
+    setDeck(shuffle([...window.QUESTIONS]).slice(0, Math.min(TOTAL, window.QUESTIONS.length)));
+    setQIdx(0);
+    setSelected(null);
+    setAnswers([]);
+    setState('quiz');
+  }
+  function commit() {
+    const q = deck[qIdx];
+    const correct = selected === q.answer;
+    const nextAnswers = [...answers, { qId: q.id, picked: selected, correct }];
+    setAnswers(nextAnswers);
+    setTimeout(() => {
+      setSelected(null);
+      if (qIdx + 1 >= deck.length) {
+        const score = nextAnswers.filter(a => a.correct).length;
+        const history = storage.get('holocron.testHistory', []);
+        history.push({ date: new Date().toISOString(), correct: score, total: deck.length });
+        storage.set('holocron.testHistory', history);
+        setState('results');
+      } else {
+        setQIdx(qIdx + 1);
+      }
+    }, 1100);
+  }
+
+  if (state === 'intro')   return <QuizIntro total={TOTAL} passPct={PASS_PCT} onStart={start}/>;
+  if (state === 'results') return <QuizResult answers={answers} deck={deck} passPct={PASS_PCT} onRetry={start}/>;
+
+  const q = deck[qIdx];
+  const picked = selected !== null;
+  const correct = picked && selected === q.answer;
+
+  return (
+    <div className="fade-in" style={{display:'flex', flexDirection:'column', gap: 24, maxWidth: 820, margin: '0 auto'}}>
+      <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+        <div>
+          <div className="eyebrow violet">▸ PRACTICE TEST</div>
+          <h2 style={{marginTop: 6, fontFamily:'var(--font-mono)'}}>Question {qIdx + 1} <span style={{color:'var(--ink-4)'}}>/ {deck.length}</span></h2>
+        </div>
+      </div>
+      <Saber value={qIdx + 1} max={deck.length} color="violet"/>
+      <div className="panel" style={{padding: 28}}>
+        <div className="eyebrow" style={{marginBottom: 10}}>Topic · {q.topic}</div>
+        <div style={{fontFamily:'var(--font-mono)', fontSize: 20, lineHeight: 1.45, marginBottom: 22}}>{q.q}</div>
+        <div style={{display:'flex', flexDirection:'column', gap: 10}}>
+          {q.choices.map((c, i) => {
+            let cls = 'quiz-choice';
+            if (picked) {
+              if (i === q.answer) cls += ' correct';
+              else if (i === selected) cls += ' wrong';
+            } else if (selected === i) cls += ' selected';
+            return (
+              <button key={i} className={cls} onClick={() => !picked && setSelected(i)}>
+                <span className="letter">{String.fromCharCode(65 + i)}</span>
+                <span>{c}</span>
+                {picked && i === q.answer && <Icon name="check" size={16} style={{marginLeft:'auto', color:'var(--holo-saber-green)'}}/>}
+                {picked && i === selected && i !== q.answer && <Icon name="x" size={16} style={{marginLeft:'auto', color:'var(--holo-saber-red)'}}/>}
+              </button>
+            );
+          })}
+        </div>
+        {picked && (
+          <div style={{marginTop: 18, padding: 14, borderRadius: 10,
+            background: correct ? 'rgba(57,255,136,0.06)' : 'rgba(255,48,48,0.06)',
+            border: `1px solid ${correct ? 'rgba(57,255,136,0.3)' : 'rgba(255,48,48,0.3)'}`}}>
+            <div style={{display:'flex', alignItems:'center', gap: 8, fontFamily:'var(--font-mono)', fontSize: 11, letterSpacing:'0.14em',
+              color: correct ? 'var(--holo-saber-green)' : 'var(--holo-saber-red)', marginBottom: 6}}>
+              {correct ? '✓ CORRECT' : '✗ INCORRECT'}
+            </div>
+            <div style={{fontSize: 13, color:'var(--ink-2)'}}>{q.explain}</div>
+          </div>
+        )}
+      </div>
+      <div style={{display:'flex', gap: 10, justifyContent:'flex-end'}}>
+        <button className="btn primary" disabled={selected === null} onClick={commit}
+          style={selected === null ? {opacity: 0.4, cursor: 'not-allowed'} : {}}>
+          {picked ? 'Next →' : 'Commit Answer'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function QuizIntro({ total, passPct, onStart }) {
+  const history = storage.get('holocron.testHistory', []);
+  return (
+    <div className="fade-in" style={{maxWidth: 720, margin: '20px auto', display:'flex', flexDirection:'column', gap: 24}}>
+      <div style={{textAlign: 'center'}}>
+        <div className="eyebrow violet">▸ PRACTICE TEST</div>
+        <h1 style={{marginTop: 8}}>Mock Permit Exam</h1>
+        <p style={{marginTop: 12, maxWidth: 480, margin: '12px auto 0'}}>
+          {total} randomized questions. Pass with {passPct}% or better. You'll see the correct answer and explanation after each question.
+        </p>
+      </div>
+      <div className="panel cyan" style={{textAlign: 'center', padding: 40}}>
+        <div style={{fontFamily:'var(--font-mono)', fontSize: 14, color:'var(--ink-2)', lineHeight: 1.7, maxWidth: 420, margin: '0 auto'}}>
+          Take your time. Read every choice before committing. The goal is to learn, not to speed-run.
+        </div>
+        <div style={{marginTop: 28, display:'flex', gap: 12, justifyContent:'center'}}>
+          <button className="btn primary" onClick={onStart}>
+            <Icon name="play" size={14}/> Begin Test
+          </button>
+        </div>
+      </div>
+      <div className="grid-3">
+        <div className="stat"><div className="label">Questions</div><div className="value">{total}</div><div className="meta">Randomized</div></div>
+        <div className="stat"><div className="label">Pass Score</div><div className="value">{passPct}<span style={{fontSize: 18, color:'var(--ink-4)'}}>%</span></div><div className="meta">{Math.ceil(total * passPct / 100)} of {total}</div></div>
+        <div className="stat"><div className="label">Tests Taken</div><div className="value">{history.length}</div><div className="meta">{history.length ? `Last: ${history[history.length - 1].correct}/${history[history.length - 1].total}` : 'None yet'}</div></div>
+      </div>
+      {history.length > 0 && <RecentHistory history={history}/>}
+    </div>
+  );
+}
+
+function RecentHistory({ history }) {
+  const recent = history.slice(-5).reverse();
+  return (
+    <div className="panel">
+      <div className="panel-head">
+        <div className="panel-title"><span className="dot"/> Recent Results</div>
+      </div>
+      <div style={{display:'flex', flexDirection:'column', gap: 8}}>
+        {recent.map((h, i) => {
+          const pct = Math.round(h.correct / h.total * 100);
+          const passed = pct >= 75;
+          return (
+            <div key={i} style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 14px', borderRadius: 8, background:'rgba(255,255,255,0.02)', border:'1px solid var(--line-soft)', fontFamily:'var(--font-mono)', fontSize: 12}}>
+              <span style={{color:'var(--ink-3)'}}>{new Date(h.date).toLocaleDateString()}</span>
+              <span style={{color:'var(--ink-1)'}}>{h.correct}/{h.total}</span>
+              <span style={{color: passed ? 'var(--holo-saber-green)' : 'var(--holo-amber)', letterSpacing:'0.1em'}}>{passed ? 'PASS' : 'RETRY'} · {pct}%</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function QuizResult({ answers, deck, passPct, onRetry }) {
+  const correct = answers.filter(a => a.correct).length;
+  const pct = Math.round(correct / deck.length * 100);
+  const passed = pct >= passPct;
+  const mistakes = answers.map((a, i) => ({ ...a, q: deck[i] })).filter(a => !a.correct);
+  return (
+    <div className="fade-in" style={{maxWidth: 820, margin: '0 auto', display:'flex', flexDirection:'column', gap: 20}}>
+      <div className="result-hero">
+        <div className="eyebrow" style={{color: passed ? 'var(--holo-saber-green)' : 'var(--holo-amber)'}}>
+          {passed ? '▸ TEST PASSED' : '▸ REVIEW AND RETRY'}
+        </div>
+        <h1 style={{marginTop: 10, fontSize: 48}}>{correct} of {deck.length}</h1>
+        <div style={{fontFamily:'var(--font-mono)', fontSize: 22, color: passed ? 'var(--holo-saber-green)' : 'var(--holo-amber)', marginTop: 8}}>{pct}%</div>
+        <p style={{marginTop: 12, maxWidth: 420, margin: '12px auto 0'}}>
+          {passed ? 'Solid. You would pass the real thing at this pace.' : `Needed ${passPct}% to pass. Look at what you missed and run it again.`}
+        </p>
+        <div style={{marginTop: 24, display:'flex', gap: 10, justifyContent:'center'}}>
+          <button className="btn primary" onClick={onRetry}><Icon name="refresh-cw" size={14}/> New Test</button>
+        </div>
+      </div>
+      {mistakes.length > 0 && (
+        <div className="panel">
+          <div className="panel-head">
+            <div className="panel-title"><span className="dot" style={{background:'var(--holo-saber-red)', boxShadow:'0 0 8px var(--holo-saber-red)'}}/> Review Your Misses</div>
+            <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--ink-3)', letterSpacing:'0.12em'}}>{mistakes.length} WRONG</div>
+          </div>
+          <div style={{display:'flex', flexDirection:'column', gap: 12}}>
+            {mistakes.map(m => (
+              <div key={m.qId} style={{padding: 14, borderRadius: 10, background:'rgba(255,48,48,0.04)', border:'1px solid rgba(255,48,48,0.2)'}}>
+                <div style={{fontFamily:'var(--font-mono)', fontSize: 10, color:'var(--ink-3)', letterSpacing:'0.14em', textTransform:'uppercase', marginBottom: 6}}>Topic · {m.q.topic}</div>
+                <div style={{fontFamily:'var(--font-mono)', fontSize: 14, color:'var(--ink-1)', marginBottom: 10}}>{m.q.q}</div>
+                <div style={{fontSize: 13, color:'var(--ink-2)', marginBottom: 4}}>
+                  <span style={{color:'var(--holo-saber-red)'}}>Your pick:</span> {m.q.choices[m.picked]}
+                </div>
+                <div style={{fontSize: 13, color:'var(--ink-2)', marginBottom: 10}}>
+                  <span style={{color:'var(--holo-saber-green)'}}>Correct:</span> {m.q.choices[m.q.answer]}
+                </div>
+                <div style={{fontSize: 12, color:'var(--ink-3)', lineHeight: 1.6, fontStyle:'italic'}}>{m.q.explain}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────── ROAD TEST PREP ───────────────
+
+function RoadTestScreen() {
+  const [done, setDone] = React.useState(() => storage.get('holocron.checklist', {}));
+  const items = window.ROAD_TEST_CHECKLIST;
+  const sections = [...new Set(items.map(i => i.section))];
+  const doneCount = items.filter(i => done[i.id]).length;
+
+  function toggle(id) {
+    const next = { ...done, [id]: !done[id] };
+    setDone(next);
+    storage.set('holocron.checklist', next);
+  }
+  function reset() {
+    setDone({});
+    storage.set('holocron.checklist', {});
+  }
+
+  return (
+    <div className="fade-in" style={{maxWidth: 900, margin: '0 auto', display:'flex', flexDirection:'column', gap: 24}}>
+      <div style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', flexWrap:'wrap', gap: 16}}>
+        <div>
+          <div className="eyebrow amber">▸ ROAD TEST PREP</div>
+          <h1>Pass the behind-the-wheel.</h1>
+          <p style={{marginTop: 10, maxWidth: 560, color:'var(--ink-2)'}}>The examiner scores you on ~100 things. These are the ones they care most about — and where most new drivers lose points. Check each as you practice it.</p>
+        </div>
+        <div className="panel" style={{padding: 20, minWidth: 260}}>
+          <div className="panel-title"><span className="dot" style={{background:'var(--holo-amber)', boxShadow:'0 0 8px var(--holo-amber)'}}/> Readiness</div>
+          <div style={{fontFamily:'var(--font-mono)', fontSize: 36, fontWeight: 700, marginTop: 8, color:'var(--ink-1)'}}>
+            {Math.round(doneCount / items.length * 100)}<span style={{color:'var(--ink-4)', fontSize: 18}}>%</span>
+          </div>
+          <div style={{marginTop: 10}}><Saber value={doneCount} max={items.length} color="amber"/></div>
+          <div style={{marginTop: 8, fontSize: 11, color:'var(--ink-3)', fontFamily:'var(--font-mono)', letterSpacing:'0.1em'}}>
+            {doneCount} / {items.length} CHECKS COMPLETE
+          </div>
+          {doneCount > 0 && (
+            <button className="btn ghost" style={{marginTop: 12, padding:'6px 12px', fontSize: 10}} onClick={reset}>Reset All</button>
+          )}
+        </div>
+      </div>
+      {sections.map(sec => (
+        <div key={sec} className="panel">
+          <div className="panel-head">
+            <div className="panel-title"><span className="dot"/> {sec}</div>
+            <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--ink-3)', letterSpacing:'0.12em'}}>
+              {items.filter(i => i.section === sec && done[i.id]).length} / {items.filter(i => i.section === sec).length}
+            </div>
+          </div>
+          <div style={{display:'flex', flexDirection:'column', gap: 8}}>
+            {items.filter(i => i.section === sec).map(it => (
+              <div key={it.id} className={`check-row ${done[it.id] ? 'done' : ''}`} onClick={() => toggle(it.id)} style={{cursor:'pointer'}}>
+                <div className="check-box">
+                  {done[it.id] && <Icon name="check" size={14} style={{color: 'var(--deep)'}}/>}
+                </div>
+                <div style={{flex: 1}}>
+                  <div className="check-title" style={{fontSize: 14, fontWeight: 500, color:'var(--ink-1)'}}>{it.title}</div>
+                  <div style={{fontSize: 12, color:'var(--ink-3)', marginTop: 3, lineHeight: 1.5}}>{it.detail}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─────────────── TIPS ───────────────
+
+function TipsScreen() {
+  return (
+    <div className="fade-in" style={{maxWidth: 960, margin: '0 auto', display:'flex', flexDirection:'column', gap: 24}}>
+      <div>
+        <div className="eyebrow magenta">▸ DRIVING TIPS</div>
+        <h1>Stay alive out there.</h1>
+        <p style={{marginTop: 10, maxWidth: 640, color:'var(--ink-2)'}}>These aren't on the permit test. They're what keeps you alive once the permit is in your pocket.</p>
+      </div>
+      <div className="grid-2">
+        {window.TIPS.map((t, i) => (
+          <div key={t.id} className="panel" style={{display:'flex', gap: 16, alignItems:'flex-start'}}>
+            <div style={{
+              width: 52, height: 52, borderRadius: 12, flexShrink: 0,
+              display: 'grid', placeItems: 'center',
+              background: i % 2 === 0 ? 'rgba(255,61,127,0.1)' : 'rgba(0,229,255,0.1)',
+              color: i % 2 === 0 ? 'var(--holo-magenta)' : 'var(--holo-cyan)',
+              border: `1px solid ${i % 2 === 0 ? 'rgba(255,61,127,0.3)' : 'var(--line-mid)'}`
+            }}>
+              <Icon name={t.icon} size={22}/>
+            </div>
+            <div>
+              <div className="eyebrow" style={{color: i % 2 === 0 ? 'var(--holo-magenta)' : 'var(--holo-cyan)'}}>TIP {String(i + 1).padStart(2, '0')}</div>
+              <h3 style={{marginTop: 6, fontFamily: 'var(--font-mono)', fontSize: 17}}>{t.title}</h3>
+              <p style={{marginTop: 8, fontSize: 13, color: 'var(--ink-2)', lineHeight: 1.6}}>{t.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────── APP SHELL ───────────────
+
+function App() {
+  const [route, setRoute] = React.useState('home');
+  let screen;
+  switch (route) {
+    case 'study':    screen = <StudyScreen/>; break;
+    case 'practice': screen = <PracticeScreen/>; break;
+    case 'roadtest': screen = <RoadTestScreen/>; break;
+    case 'tips':     screen = <TipsScreen/>; break;
+    default:         screen = <HomeScreen onNav={setRoute}/>;
+  }
+  return (
+    <>
+      <div className="starfield"/>
+      <div className="app-simple">
+        <header className="top-bar">
+          <div className="brand" style={{cursor:'pointer'}} onClick={() => setRoute('home')}>
+            <BrandMark/>
+            <span className="brand-text">HOLOCRON<span style={{opacity: 0.4, marginLeft: 8}}>DMV.CA</span></span>
+          </div>
+          <div style={{flex: 1}}/>
+          {route !== 'home' && (
+            <button className="btn ghost" onClick={() => setRoute('home')}>
+              <Icon name="corner-down-left" size={14}/> Home
+            </button>
+          )}
+        </header>
+        <main className="main-simple" key={route}>{screen}</main>
+      </div>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+
+</script>
+</body>
+</html>

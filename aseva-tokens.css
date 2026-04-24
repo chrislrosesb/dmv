@@ -1,0 +1,284 @@
+/*
+ * Aseva Design System — Colors & Type
+ * Sourced from src/client/styles/tokens.css (v9.0, 2026-04-17).
+ * Dark-first dashboard UI. Warm coral accent on deep ink surfaces.
+ */
+
+/* ─── Fonts (self-hosted WOFF2) ─── */
+@font-face {
+  font-family: 'Geist';
+  src: url('fonts/Geist-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('fonts/Geist-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('fonts/Geist-SemiBold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: optional;
+}
+
+:root {
+  /* Surfaces (dark-first, layered) */
+  --aseva-deep-ink:        #0B0D12;
+  --aseva-surface-1:       #11141B;
+  --aseva-surface-2:       #161A23;
+  --aseva-surface-3:       #1C2130;
+
+  /* Accents — warm coral primary, cool blue secondary */
+  --aseva-accent-warm:     #FF7A59;
+  --aseva-accent-cool:     #6BA5FF;
+
+  /* Text */
+  --aseva-text-primary:    #F2F4F8;
+  --aseva-text-secondary:  #9CA5B5;
+  --aseva-text-dim:        #8490A0;
+  --aseva-text-muted:      #6B7280;
+
+  /* Borders */
+  --aseva-border-subtle:   rgba(255,255,255,0.06);
+  --aseva-border-strong:   rgba(255,255,255,0.12);
+
+  /* Semantic */
+  --aseva-danger:          #E84C56;
+  --aseva-danger-subtle:   rgba(232,76,86,0.12);
+  --aseva-success:         #34C98A;
+  --aseva-warning:         #F5A623;
+
+  /* Interaction fills */
+  --aseva-hover-fill:      rgba(255,255,255,0.04);
+  --aseva-active-fill:     rgba(255,122,89,0.10);
+  --aseva-selection-ring:  rgba(255,122,89,0.30);
+  --aseva-focus-ring:      #6BA5FF;
+
+  /* Typography — families */
+  --aseva-font-sans:   'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --aseva-font-mono:   'JetBrains Mono', 'Fira Code', 'Menlo', monospace;
+
+  /* Typography — size scale */
+  --aseva-text-xs:   11px;
+  --aseva-text-sm:   12px;
+  --aseva-text-base: 13px;
+  --aseva-text-md:   14px;
+  --aseva-text-lg:   16px;
+  --aseva-text-xl:   18px;
+  --aseva-text-2xl:  22px;
+  --aseva-text-3xl:  28px;
+  --aseva-text-4xl:  36px;
+
+  /* Line heights */
+  --aseva-leading-tight:  1.2;
+  --aseva-leading-snug:   1.35;
+  --aseva-leading-normal: 1.5;
+
+  /* Weights */
+  --aseva-w-regular:  400;
+  --aseva-w-medium:   500;
+  --aseva-w-semibold: 600;
+
+  /* Tracking */
+  --aseva-tracking-tight:  -0.02em;
+  --aseva-tracking-normal:  0em;
+  --aseva-tracking-wide:    0.04em;
+
+  /* Spacing (4pt baseline) */
+  --aseva-space-1:  4px;
+  --aseva-space-2:  8px;
+  --aseva-space-3: 12px;
+  --aseva-space-4: 16px;
+  --aseva-space-5: 20px;
+  --aseva-space-6: 24px;
+  --aseva-space-8: 32px;
+  --aseva-space-10: 40px;
+  --aseva-space-14: 56px;
+  --aseva-space-18: 72px;
+
+  /* Radii */
+  --aseva-radius-sm:    6px;
+  --aseva-radius-md:   10px;
+  --aseva-radius-lg:   14px;
+  --aseva-radius-xl:   20px;
+  --aseva-radius-full: 9999px;
+
+  /* Shadows (layered) */
+  --aseva-shadow-subtle:   0 1px 2px rgba(0,0,0,0.25);
+  --aseva-shadow-elevated: 0 8px 24px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.20);
+  --aseva-shadow-floating: 0 24px 48px rgba(0,0,0,0.45), 0 8px 16px rgba(0,0,0,0.30);
+
+  /* Material — translucent chrome */
+  --aseva-translucent-bg:     rgba(17,20,27,0.72);
+  --aseva-translucent-filter: blur(24px) saturate(140%);
+  --aseva-scrim:              rgba(0,0,0,0.45);
+
+  /* Motion — easing */
+  --aseva-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --aseva-ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --aseva-duration-instant: 80ms;
+  --aseva-duration-fast:    150ms;
+  --aseva-duration-normal:  250ms;
+  --aseva-duration-slow:    400ms;
+
+  /* Icon system (Lucide canonical) */
+  --aseva-icon-xs: 12px;
+  --aseva-icon-sm: 14px;
+  --aseva-icon-md: 16px;
+  --aseva-icon-lg: 20px;
+  --aseva-icon-xl: 24px;
+  --aseva-icon-stroke: 1.75;
+
+  /* Layout */
+  --aseva-header-height: 56px;
+  --aseva-touch-target:  44px;
+  --aseva-hit-target:    24px;
+
+  /* ─── Semantic element defaults (dark) ─── */
+  --fg1: var(--aseva-text-primary);
+  --fg2: var(--aseva-text-secondary);
+  --fg3: var(--aseva-text-dim);
+  --fg4: var(--aseva-text-muted);
+  --bg1: var(--aseva-deep-ink);
+  --bg2: var(--aseva-surface-1);
+  --bg3: var(--aseva-surface-2);
+  --bg4: var(--aseva-surface-3);
+}
+
+/* ─── Light theme ─────────────────────────────────────────────────────────
+ * Sourced from COMPAT block in tokens.css (v8.0 light palette: #f5f5f7 body,
+ * #ffffff card, #1d1d1f text, #0071e3 cool CTA, #ff9f0a warm star).
+ * In light mode the accent system INVERTS: cool blue is the primary action,
+ * warm coral/amber punctuates stars, warnings, active-selection fills.
+ * ─────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* Surfaces */
+  --aseva-deep-ink:        #F5F5F7;
+  --aseva-surface-1:       #FFFFFF;
+  --aseva-surface-2:       #FBFBFD;
+  --aseva-surface-3:       #EFEFF2;
+
+  /* Accents — cool blue leads, warm coral recedes to punctuation */
+  --aseva-accent-warm:     #FF7A59;   /* still coral, but used sparingly (stars, pills) */
+  --aseva-accent-cool:     #0071E3;   /* primary CTA in light */
+
+  /* Text */
+  --aseva-text-primary:    #1D1D1F;
+  --aseva-text-secondary:  #3C3C43;
+  --aseva-text-dim:        #6E6E73;
+  --aseva-text-muted:      #86868B;
+
+  /* Borders */
+  --aseva-border-subtle:   rgba(0,0,0,0.06);
+  --aseva-border-strong:   rgba(0,0,0,0.12);
+
+  /* Semantic (same hues, adjusted for contrast on light) */
+  --aseva-danger:          #D93540;
+  --aseva-danger-subtle:   rgba(217,53,64,0.10);
+  --aseva-success:         #1F9D68;
+  --aseva-warning:         #E58A12;
+
+  /* Interaction fills */
+  --aseva-hover-fill:      rgba(0,0,0,0.04);
+  --aseva-active-fill:     rgba(0,113,227,0.08);
+  --aseva-selection-ring:  rgba(0,113,227,0.28);
+  --aseva-focus-ring:      #0071E3;
+
+  /* Shadows — lighter, more diffuse on white */
+  --aseva-shadow-subtle:   0 1px 3px rgba(0,0,0,0.08);
+  --aseva-shadow-elevated: 0 4px 12px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
+  --aseva-shadow-floating: 0 16px 40px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.08);
+
+  /* Material */
+  --aseva-translucent-bg:     rgba(255,255,255,0.78);
+  --aseva-scrim:              rgba(0,0,0,0.30);
+}
+
+/* ─── Semantic element styles ─── */
+html, body {
+  background: var(--bg1);
+  color: var(--fg1);
+  font-family: var(--aseva-font-sans);
+  font-size: var(--aseva-text-base);
+  line-height: var(--aseva-leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, .aseva-h1 {
+  font-family: var(--aseva-font-sans);
+  font-size: var(--aseva-text-4xl);
+  font-weight: var(--aseva-w-semibold);
+  letter-spacing: var(--aseva-tracking-tight);
+  line-height: var(--aseva-leading-tight);
+  color: var(--fg1);
+}
+h2, .aseva-h2 {
+  font-size: var(--aseva-text-3xl);
+  font-weight: var(--aseva-w-semibold);
+  letter-spacing: var(--aseva-tracking-tight);
+  line-height: var(--aseva-leading-tight);
+  color: var(--fg1);
+}
+h3, .aseva-h3 {
+  font-size: var(--aseva-text-2xl);
+  font-weight: var(--aseva-w-semibold);
+  letter-spacing: var(--aseva-tracking-tight);
+  line-height: var(--aseva-leading-snug);
+  color: var(--fg1);
+}
+h4, .aseva-h4 {
+  font-size: var(--aseva-text-xl);
+  font-weight: var(--aseva-w-medium);
+  line-height: var(--aseva-leading-snug);
+  color: var(--fg1);
+}
+h5, .aseva-h5 {
+  font-size: var(--aseva-text-lg);
+  font-weight: var(--aseva-w-medium);
+  color: var(--fg1);
+}
+.aseva-title { /* widget titles, card titles */
+  font-size: var(--aseva-text-base);
+  font-weight: var(--aseva-w-semibold);
+  color: var(--fg1);
+}
+p, .aseva-body {
+  font-size: var(--aseva-text-base);
+  line-height: var(--aseva-leading-normal);
+  color: var(--fg1);
+}
+.aseva-body-sm {
+  font-size: var(--aseva-text-sm);
+  color: var(--fg2);
+}
+.aseva-label {
+  font-size: var(--aseva-text-xs);
+  font-weight: var(--aseva-w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--aseva-tracking-wide);
+  color: var(--fg3);
+}
+.aseva-kbd, kbd {
+  font-family: var(--aseva-font-sans);
+  font-size: 10px;
+  padding: 1px 5px;
+  border: 1px solid var(--aseva-border-strong);
+  border-radius: var(--aseva-radius-sm);
+  background: var(--aseva-surface-2);
+  color: var(--fg4);
+}
+code, .aseva-code {
+  font-family: var(--aseva-font-mono);
+  font-size: var(--aseva-text-sm);
+  color: var(--fg1);
+  background: var(--aseva-surface-2);
+  padding: 2px 6px;
+  border-radius: var(--aseva-radius-sm);
+}
+a { color: var(--aseva-accent-cool); text-decoration: none; }
+a:hover { text-decoration: underline; }
